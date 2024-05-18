@@ -12,7 +12,7 @@ namespace LoginDemoApp.Services
         private HttpClient client;
         private string baseUrl;
         public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5171/api/" : "http://localhost:5171/api/";
-
+        public static string ImagesRoot = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5171/" : "http://localhost:5171/";
 
         public LoginDemoWebAPIProxy()
         {
@@ -85,5 +85,28 @@ namespace LoginDemoApp.Services
             }
         }
 
+        public async Task<bool> UploadProfileImageAsync(string filePath)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}UploadProfileImage";
+            try
+            {
+                var multipartFormDataContent = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(filePath));
+                multipartFormDataContent.Add(fileContent, "file", filePath);
+                HttpResponseMessage response = await client.PostAsync(url, multipartFormDataContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
     }
 }

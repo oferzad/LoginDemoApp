@@ -1,5 +1,6 @@
 ﻿using LoginDemoApp.Models;
 using LoginDemoApp.Services;
+using LoginDemoApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,7 @@ namespace LoginDemoApp.ViewModels
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Login", $"Login Succeed! for {u.Name}", "ok");
+                Application.Current.MainPage=new UploadProfileImageView();
             }
         }
 
