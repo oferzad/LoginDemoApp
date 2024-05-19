@@ -27,7 +27,8 @@ namespace LoginDemoApp.ViewModels
         public ICommand PickImageCommand { get; set; }
         public async void OnPickImage()
         {
-            FileResult result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions()
+            
+            FileResult result = await MediaPicker.Default.PickPhotoAsync(new MediaPickerOptions()
             {
                 Title = "בחר תמונה"
             });
@@ -41,15 +42,19 @@ namespace LoginDemoApp.ViewModels
         public ICommand CaptureImageCommand { get; set; }
         public async void OnCaptureImage()
         {
-            FileResult result = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+            if (MediaPicker.Default.IsCaptureSupported) 
             {
-                Title = "צלם תמונה"
-            });
+                FileResult result = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions()
+                {
+                    Title = "צלם תמונה"
+                });
 
-            if (result != null)
-            {
-                this.imageFileResult = result;
+                if (result != null)
+                {
+                    this.imageFileResult = result;
+                }
             }
+            
         }
 
         public ICommand UploadCommand { get; set; }
@@ -102,6 +107,10 @@ namespace LoginDemoApp.ViewModels
         {
             get
             {
+                if (imageUrl == null && ((App)Application.Current).LoggedInUser != null) 
+                {
+                    imageUrl = $"{LoginDemoWebAPIProxy.ImagesRoot}{((App)Application.Current).LoggedInUser.Email}.jpg";
+                }
                 return this.imageUrl;
             }
             set

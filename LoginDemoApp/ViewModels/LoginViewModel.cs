@@ -13,14 +13,14 @@ namespace LoginDemoApp.ViewModels
     public class LoginViewModel:ViewModelBase
     {
         private LoginDemoWebAPIProxy service;
-        private UploadProfileImageView uploadView;
-        public LoginViewModel(LoginDemoWebAPIProxy service, UploadProfileImageView uploadView)
+        private IServiceProvider serviceProvider;
+        public LoginViewModel(LoginDemoWebAPIProxy service, IServiceProvider serviceProvider)
         {
             InServerCall = false;
             this.service = service;
             this.LoginCommand = new Command(OnLogin);
             this.CheckCommand = new Command(OnCheck);
-            this.uploadView = uploadView;
+            this.serviceProvider = serviceProvider;
         }
 
         public ICommand LoginCommand { get; set; }
@@ -48,7 +48,7 @@ namespace LoginDemoApp.ViewModels
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Login", $"Login Succeed! for {u.Name}", "ok");
-                Application.Current.MainPage = uploadView;
+                Application.Current.MainPage = serviceProvider.GetService<UploadProfileImageView>();
             }
         }
 
