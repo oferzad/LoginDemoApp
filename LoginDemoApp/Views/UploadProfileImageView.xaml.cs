@@ -5,9 +5,9 @@ namespace LoginDemoApp.Views;
 
 public partial class UploadProfileImageView : ContentPage
 {
-	public UploadProfileImageView()
+	public UploadProfileImageView(UploadProfileImageViewModel vm)
 	{
 		InitializeComponent();
-		this.BindingContext = new UploadProfileImageViewModel(new LoginDemoWebAPIProxy());
+		this.BindingContext = vm;
 	}
 }

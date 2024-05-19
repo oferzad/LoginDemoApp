@@ -4,9 +4,9 @@ namespace LoginDemoApp.Views;
 
 public partial class LoginView : ContentPage
 {
-	public LoginView()
+	public LoginView(LoginViewModel vm)
 	{
 		InitializeComponent();
-		this.BindingContext = new LoginViewModel(new Services.LoginDemoWebAPIProxy());
+		this.BindingContext = vm;
 	}
 }

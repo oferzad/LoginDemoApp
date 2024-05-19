@@ -20,7 +20,7 @@ namespace LoginDemoApp.Services
             HttpClientHandler handler = new HttpClientHandler();
             handler.CookieContainer = new System.Net.CookieContainer();
 
-            this.client = new HttpClient(handler, true);
+            this.client = new HttpClient(handler);
             this.baseUrl = BaseAddress;
         }
 

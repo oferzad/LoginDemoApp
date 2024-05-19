@@ -17,8 +17,9 @@ namespace LoginDemoApp.ViewModels
             this.service = service;
             this.UploadCommand = new Command(UploadImage);
             this.PickImageCommand = new Command(OnPickImage);
+            this.CaptureImageCommand = new Command(OnCaptureImage);
             App theApp = (App)Application.Current;
-            ImageUrl = LoginDemoWebAPIProxy.ImagesRoot + theApp.LoggedInUser.Email + ".jpg";
+            
         }
 
         ///The following command handle the pick photo button
@@ -29,6 +30,20 @@ namespace LoginDemoApp.ViewModels
             FileResult result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions()
             {
                 Title = "בחר תמונה"
+            });
+
+            if (result != null)
+            {
+                this.imageFileResult = result;
+            }
+        }
+
+        public ICommand CaptureImageCommand { get; set; }
+        public async void OnCaptureImage()
+        {
+            FileResult result = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions()
+            {
+                Title = "צלם תמונה"
             });
 
             if (result != null)

@@ -6,11 +6,11 @@ namespace LoginDemoApp;
 public partial class App : Application
 {
 	public User LoggedInUser { get; set; }
-	public App()
+	public App(IServiceProvider serviceProvider)
 	{
 		LoggedInUser = null;
 		InitializeComponent();
 
-		MainPage = new LoginView();
+		MainPage = serviceProvider.GetService<LoginView>();
 	}
 }

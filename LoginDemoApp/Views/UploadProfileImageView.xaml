@@ -10,6 +10,7 @@
             HorizontalOptions="Center" />
         <Image Source="{Binding ImageUrl}" WidthRequest="100"></Image>
         <Button Command="{Binding PickImageCommand}" Text="Pick Image"></Button>
+        <Button Command="{Binding CaptureImageCommand}" Text="Capture Image"></Button>
         <Button Command="{Binding UploadCommand}" Text="Upload Image"></Button>
         <ActivityIndicator IsVisible="{Binding InServerCall}"></ActivityIndicator>
 
