@@ -64,7 +64,7 @@ namespace LoginDemoApp.ViewModels
             if (this.imageFileResult != null)
             {
                 InServerCall = true;
-                success = await service.UploadProfileImageAsync(this.imageFileResult.FullPath);
+                success = await service.UploadProfileImageAsync(this.imageFileResult);
                 InServerCall = false;
             }
 

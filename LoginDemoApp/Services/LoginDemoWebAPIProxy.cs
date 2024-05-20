@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -94,6 +95,39 @@ namespace LoginDemoApp.Services
                 var multipartFormDataContent = new MultipartFormDataContent();
                 var fileContent = new ByteArrayContent(File.ReadAllBytes(filePath));
                 multipartFormDataContent.Add(fileContent, "file", filePath);
+                HttpResponseMessage response = await client.PostAsync(url, multipartFormDataContent);
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> UploadProfileImageAsync(FileResult file)
+        {
+            //Set URI to the specific function API
+            string url = $"{this.baseUrl}UploadProfileImage";
+            try
+            {
+                byte[] streamBytes;
+                //take the file and make it a byte array
+                using (var stream = await file.OpenReadAsync())
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    streamBytes = memoryStream.ToArray();
+                }
+                var multipartFormDataContent = new MultipartFormDataContent();
+                var fileContent = new ByteArrayContent(streamBytes);
+                fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                multipartFormDataContent.Add(fileContent, "file", file.FileName);
                 HttpResponseMessage response = await client.PostAsync(url, multipartFormDataContent);
                 if (response.IsSuccessStatusCode)
                 {
